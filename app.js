@@ -58,3 +58,80 @@ const addToDb = () => {
         }
     });
 };
+
+const addEmployee = () => {
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'firstName',
+            message: "What is the employee's first name?"
+        },
+        {
+            type: 'input',
+            name: 'lastName',
+            message: "What is the employee's last name?"
+        },
+        {
+            type: 'input',
+            name: 'roleId',
+            message: "What is the employee's role id?"
+        },
+        {
+            type: 'input',
+            name: 'managerId',
+            message: "What is the id of the employee's manager? (leave blank if no manager)",
+            default: null
+        }
+    ]).then(answers => {
+        connection.query(
+            "INSERT INTO employee SET ?",
+            {
+              first_name: answers.firstName,
+              last_name: answers.lastName,
+              role_id: Number(answers.roleId),
+              manager_id: Number(answers.managerId)
+            },
+            function(err) {
+              if (err) throw err;
+              console.log("Your employee was added successfully!");
+              // re-prompt the user for if they want to bid or post
+              askTask();
+            }
+          );
+    })
+};
+
+const addRole = () => {
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'title',
+            message: "What is the title of the role?"
+        },
+        {
+            type: 'input',
+            name: 'salary',
+            message: "What is the salary for this role?"
+        },
+        {
+            type: 'input',
+            name: 'deptId',
+            message: "What is the department ID for this role?"
+        },
+    ]).then(answers => {
+        connection.query(
+            "INSERT INTO role SET ?",
+            {
+              title: answers.title,
+              salary: answers.salary,
+              department_id: Number(answers.deptId),
+            },
+            function(err) {
+              if (err) throw err;
+              console.log("The role was added successfully!");
+              // re-prompt the user for if they want to bid or post
+              askTask();
+            }
+          );
+    })
+}
