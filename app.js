@@ -33,4 +33,28 @@ const askTask = () => {
                 process.exit();
             }
         });
-}
+};
+
+const addToDb = () => {
+    inquirer.prompt([
+        {
+            type: 'list',
+            name: 'toAdd',
+            message: "What would you like to add?",
+            choices: [
+                "Employee",
+                "Role",
+                "Department"
+            ]
+        }
+    ]).then(answers => {
+        const toAdd = answers.toAdd;
+        if (toAdd === 'Employee') {
+            addEmployee();
+        } else if (toAdd === 'Role') {
+            addRole();
+        } else {
+            console.log('add dept');
+        }
+    });
+};
