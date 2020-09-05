@@ -1,0 +1,24 @@
+{
+  "name": "Employee_Tracker",
+  "version": "1.0.0",
+  "description": "UNH Coding Boot Camp HW; A command-line application built using Node, Inquirer and mySQL. This application is designed to allow a business manager to view and manage departments, roles, and employees.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LivesInRoom29/Employee_Tracker.git"
+  },
+  "keywords": [],
+  "author": "molly_kizer <molly.kizer@gmail.com>",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/LivesInRoom29/Employee_Tracker/issues"
+  },
+  "homepage": "https://github.com/LivesInRoom29/Employee_Tracker#readme",
+  "dependencies": {
+    "inquirer": "^7.3.3",
+    "mysql": "^2.18.1"
+  }
+}
