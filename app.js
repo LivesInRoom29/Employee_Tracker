@@ -20,13 +20,14 @@ connection.connect(function (err) {
 });
 
 const askTask = () => {
-    inquirer.prompt(questions)
-        .then(answers => {
+    inquirer
+        .prompt(questions)
+        .then((answers) => {
             const task = answers.task;
             if (task === 'view information') {
                 console.log('view info');
             } else if (task === 'add new information') {
-                addToDb();
+                addToDb(answers);
             } else if (task === 'update existing information') {
                 console.log('update');
             } else {
@@ -35,7 +36,7 @@ const askTask = () => {
         });
 };
 
-const addToDb = () => {
+const addToDb = (answers) => {
     const toAdd = answers.toAdd;
     if (toAdd === 'Employee') {
         addEmployee(answers);
