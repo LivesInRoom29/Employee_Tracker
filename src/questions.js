@@ -1,3 +1,7 @@
+const getAll = require('../getAll.js');
+const db = require('./app.js');
+
+
 const questions = [
     {
         type: 'list',
@@ -6,7 +10,8 @@ const questions = [
         choices: [
             'view information',
             'add new information',
-            'update existing information',
+            'delete existing information',
+            'update employee information',
             'exit application'
         ]
     },
@@ -24,13 +29,13 @@ const questions = [
     {
         type: 'list',
         name: 'toUpdate',
-        message: "What would you like to update?",
+        message: "What would you like to delete?",
         choices: [
             'Employee',
             'Role',
             'Department'
         ],
-        when: (answers) => answers.task === 'update existing information'
+        when: (answers) => answers.task === 'delete existing information'
     },
     {
         type: 'list',
@@ -43,6 +48,7 @@ const questions = [
         ],
         when: (answers) => answers.task === 'view information'
     },
+
     // To ADD new EMPLOYEE:
     {
         type: 'input',
@@ -57,16 +63,18 @@ const questions = [
         when: (answers) => answers.toAdd === 'Employee'
     },
     {
-        type: 'input',
+        type: 'list',
         name: 'roleId',
-        message: "What is the employee's role id?",
+        message: "What is the employee's role?",
+        choices: function() { getAll('roles') },
         when: (answers) => answers.toAdd === 'Employee'
     },
     {
-        type: 'input',
+        type: 'list',
         name: 'managerId',
-        message: "What is the id of the employee's manager? (leave blank if no manager)",
+        message: "Who is the employee's manager? (leave blank if no manager)",
         default: null,
+        choices: function() { getAll('managers') },
         // Use options from Managers table
         when: (answers) => answers.toAdd === 'Employee',
     },
