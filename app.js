@@ -1,6 +1,5 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
-
 const questions = require('./questions');
 
 // create the connection information for the sql database
@@ -9,9 +8,10 @@ var connection = mysql.createConnection({
     port: 3306,
     user: "root",
     password: "root1234",
-    database: "EmployeeTracker"
+    database: "EmployeeTracker_DB"
 });
 
+//====================
 // connect to the mysql server and sql database
 connection.connect(function (err) {
     if (err) throw err;
@@ -19,40 +19,48 @@ connection.connect(function (err) {
     askTask();
 });
 
+
 const askTask = () => {
     inquirer
         .prompt(questions)
         .then((answers) => {
             const task = answers.task;
-            if (task === 'view information') {
-                console.log('view info');
-            } else if (task === 'add new information') {
-                addToDb(answers);
-            } else if (task === 'update existing information') {
-                console.log('update');
+            if (task === 'view employees') {
+                console.log('view employees');
+            } else if (task === 'view roles') {
+                console.log('view roles');
+            } else if (task === 'view departments') {
+                console.log('view departments');
+            } else if (task === 'view managers') {
+                console.log('view managers');
+            } else if (task === 'add employee') {
+                addEmployee();
+            } else if (task === 'add role') {
+                addRole();
+            } else if (task === 'add department') {
+                console.log('add department');
+            } else if (task === 'add manager') {
+                console.log('add manager');
+            } else if (task === 'update employee') {
+                console.log('update employee');
+            } else if (task === 'delete  employee') {
+                console.log('delete  employee');
+            } else if (task === 'delete  role') {
+                console.log('delete  role');
+            } else if (task === 'delete  department') {
+                console.log('delete  department');
             } else {
                 process.exit();
             }
         });
 };
 
-const addToDb = (answers) => {
-    const toAdd = answers.toAdd;
-    if (toAdd === 'Employee') {
-        addEmployee(answers);
-    } else if (toAdd === 'Role') {
-        addRole(answers);
-    } else {
-        console.log('add dept');
-    }
-};
-
 const addEmployee = (answers) => {
     connection.query(
         "INSERT INTO employees SET ?",
         {
-            first_name: answers.firstName,
-            last_name: answers.lastName,
+            employee_firstname: answers.firstName,
+            employee_lastname: answers.lastName,
             role_id: Number(answers.roleId),
             manager_id: Number(answers.managerId)
         },
@@ -79,5 +87,6 @@ const addRole = (answers) => {
             // re-prompt the user for if they want to bid or post
             askTask();
         }
-        );
-}
+    );
+};
+
