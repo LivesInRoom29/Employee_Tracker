@@ -2,23 +2,26 @@ const mysql = require('mysql');
 const inquirer = require('inquirer');
 const questions = require('./questions');
 
-// create the connection information for the sql database
-var connection = mysql.createConnection({
-    host: "localhost",
-    port: 3306,
-    user: "root",
-    password: "root1234",
-    database: "EmployeeTracker_DB"
-});
+// // create the connection information for the sql database
+// const connection = mysql.createConnection({
+//     host: "localhost",
+//     port: 3306,
+//     user: "root",
+//     password: "root1234",
+//     database: "EmployeeTracker_DB"
+// });
 
-//====================
-// connect to the mysql server and sql database
-connection.connect(function (err) {
-    if (err) throw err;
-    // run the askTask function after the connection is made to prompt the user
-    askTask();
-});
+const connection = require('./db.js');
+const { getAllEmployees, getAllRoles, getAllDepts } = require('./getAll');
 
+// //====================
+// // connect to the mysql server and sql database
+// connection.connect(function (err) {
+//     if (err) throw err;
+//     // run the askTask function after the connection is made to prompt the user
+//     askTask();
+// });
+const allEmployees = getAllEmployees();
 
 const askTask = () => {
     inquirer
@@ -90,3 +93,5 @@ const addRole = (answers) => {
     );
 };
 
+
+console.log(getAllEmployees());
