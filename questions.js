@@ -1,5 +1,13 @@
 const inquirer = require("inquirer");
 
+const { getAllEmployees, getAllRoles, getAllDepts } = require('./getAll');
+
+const allEmployees = getAllEmployees();
+const allRoles = getAllRoles();
+const allDepts = getAllDepts();
+console.log(`all roles are: \n`);
+console.log(allRoles);
+
 const questions = [
     {
         type: 'list',
@@ -73,9 +81,10 @@ const questions = [
         when: (answers) => answers.toAdd === 'Employee'
     },
     {
-        type: 'input',
+        type: 'list',
         name: 'roleId',
-        message: "What is the employee's role id?",
+        message: "What is the employee's role?",
+        choices: allRoles,
         when: (answers) => answers.toAdd === 'Employee'
     },
     {
