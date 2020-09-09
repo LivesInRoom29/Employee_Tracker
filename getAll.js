@@ -3,48 +3,56 @@ const connection = require('./db.js');
 // Async/await use From https://stackoverflow.com/questions/44004418/node-js-async-await-using-with-mysql#:~:text=if%20you%20happen%20to%20be,()%20with%20the%20node%20mysql.&text=Any%20promise%20can%20be%20used,an%20async%20function%20%22wrapper%22.
 const queryAsync = util.promisify(connection.query).bind(connection);
 
-// Use to create an array of all employees/roles/depts/managers
-// Array to be used for choices in inquirer
-const getAllEmployees = async () => {
+let allEmployees = [];
+let allRoles = [];
+let allDepts = [];
+let allManagers = [];
+
+const setAllEmp = async (value) => {
     try {
         const rows = await queryAsync("SELECT * FROM employees");
-        const allEmployees = rows.map((employee) => `${employee.employee_firstname} ${employee.employee_lastname}`);
-        return allEmployees;
+        return rows.map((employee) => `${employee.employee_firstname} ${employee.employee_lastname}`);
     } catch {
         console.log(err);
     }
 };
 
-const getAllRoles = () => {
-    const query = "SELECT * FROM roles";
-    connection.query(query, (err, res) => {
-        if (err) throw err;
-        return res.map((role) => role.title);
-    })
+const setAllRoles = async () => {
+    try {
+        const rows = await queryAsync("SELECT * FROM roles");
+        return rows.map((role) => ({name: role.title, value: role.id}));
+    } catch {
+        console.log(`Err at setAllRoles,`, err);
+    }
 };
 
-const getAllDepts = () => {
-    const query = "SELECT * FROM departments";
-    connection.query(query, (err, res) => {
-        if (err) throw err;
-        return res.map((department) => department.dept_name);;
-    })
+const setAllDepts = async() => {
+    try {
+        const rows = await queryAsync("SELECT * FROM departments");
+        return rows.map((dept) => ({name: dept.dept_name, value: dept.id}));
+    } catch {
+        console.log(`Err at setAllDepts,`, err);
+    }
 };
 
-const getAllManagers = () => {
-    const query = "SELECT * FROM managers";
-    connection.query(query, (err, res) => {
-        if (err) throw err;
-        return res.map((managers) =>`${managers.manager_firstname} ${managers.manager_lastname}`);;
-    })
+const setAllManagers = async () => {
+    try {
+        const rows = await queryAsync("SELECT * FROM employees WHERE manager_id IS NULL");
+        return rows.map((manager) => ({name: `${manager.employee_firstname} ${manager.employee_lastname}`, value: manager.id}));
+    } catch {
+        console.log('Err at setAllManagers:', err);
+    }
 };
 
+Promise.all([setAllEmp(), setAllRoles(), setAllDepts(), setAllManagers()])
+.then((values) => {
+    allEmployees = values[0];
+    allRoles = values[1];
+    allDepts = values[2];
+    allManagers = values[3];
+   // console.log('All employees:', allEmployees, 'All roles:', allRoles, 'All depts:', allDepts, 'all managers:', allManagers);
+}).catch((err) => console.log(err));
 
-const allEmployees = getAllEmployees();
-const allRoles = getAllRoles();
-const allDepts = getAllDepts();
-const allmanagers = getAllManagers();
 
-console.log(allEmployees);
-
-module.exports = { getAllEmployees, getAllRoles, getAllDepts, getAllManagers, allEmployees, allRoles, allDepts, allmanagers };
+//module.exports = { allEmployees, allRoles, allDepts, allManagers };
+module.exports = { setAllEmp, setAllRoles, setAllDepts, setAllManagers }
