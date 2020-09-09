@@ -1,14 +1,7 @@
 const inquirer = require("inquirer");
-
-const { getAllEmployees, getAllRoles, getAllDepts } = require('./getAll');
-
-const allEmployees = getAllEmployees();
-const allRoles = getAllRoles();
-const allDepts = getAllDepts();
-console.log(`all roles are: \n`);
-console.log(allRoles);
-
-const questions = [
+const { allEmployees, allRoles, allDepts, allManagers } = require('./getAll');
+console.log('qest all employees', allEmployees);
+const questTask = [
     {
         type: 'list',
         name: 'task',
@@ -33,41 +26,11 @@ const questions = [
             new inquirer.Separator('=== EXIT ==='),
             'exit application'
         ]
-    },
-    {
-        type: 'list',
-        name: 'toAdd',
-        message: "What would you like to add?",
-        choices: [
-            'Employee',
-            'Role',
-            'Department'
-        ],
-        when: (answers) => answers.task === 'add new information'
-    },
-    {
-        type: 'list',
-        name: 'toUpdate',
-        message: "What would you like to update?",
-        choices: [
-            'Employee',
-            'Role',
-            'Department'
-        ],
-        when: (answers) => answers.task === 'update existing information'
-    },
-    {
-        type: 'list',
-        name: 'toView',
-        message: "What type of information would you like to view?",
-        choices: [
-            'Employee',
-            'Role',
-            'Department'
-        ],
-        when: (answers) => answers.task === 'view information'
-    },
-    // To ADD new EMPLOYEE:
+    }
+];
+
+// To ADD new EMPLOYEE:
+const questAddEmpl = [
     {
         type: 'input',
         name: 'firstName',
@@ -81,10 +44,10 @@ const questions = [
         when: (answers) => answers.toAdd === 'Employee'
     },
     {
-        type: 'list',
+        type: 'input',
         name: 'roleId',
         message: "What is the employee's role?",
-        choices: allRoles,
+        // choices: ,
         when: (answers) => answers.toAdd === 'Employee'
     },
     {
@@ -94,8 +57,11 @@ const questions = [
         default: null,
         // Use options from Managers table
         when: (answers) => answers.toAdd === 'Employee',
-    },
-    // To ADD new ROLE:
+    }
+];
+
+// To ADD new ROLE
+const questAddRole = [
     {
         type: 'input',
         name: 'title',
@@ -114,14 +80,17 @@ const questions = [
         message: "What is the department ID for this role?",
         // Use options from departments table
         when: (answers) => answers.toAdd === 'Role',
-    },
-    // To add new DEPARTMENT
+    }
+];
+
+// To add new DEPARTMENT
+const questAddDept = [
     {
         type: 'input',
         name: 'deptName',
         message: "What is the name of the department?",
         when: (answers) => answers.toAdd === 'Department',
-    },
-]
+    }
+];
 
-module.exports = questions;
+module.exports = { questTask, questAddEmpl, questAddRole, questAddDept };
