@@ -1,31 +1,13 @@
-const mysql = require('mysql');
 const inquirer = require('inquirer');
-const questions = require('./questions');
+const { addEmployee } = require('./controllers/employees.js');
+const {addRole } = require('./controllers/roles.js');
+const { questTask } = require('./questions');
 
-// // create the connection information for the sql database
-// const connection = mysql.createConnection({
-//     host: "localhost",
-//     port: 3306,
-//     user: "root",
-//     password: "root1234",
-//     database: "EmployeeTracker_DB"
-// });
-
-const connection = require('./db.js');
-const { getAllEmployees, getAllRoles, getAllDepts } = require('./getAll');
-
-// //====================
-// // connect to the mysql server and sql database
-// connection.connect(function (err) {
-//     if (err) throw err;
-//     // run the askTask function after the connection is made to prompt the user
-//     askTask();
-// });
-const allEmployees = getAllEmployees();
+//const { askTask } = await require('./controllers/initialAsk');
 
 const askTask = () => {
     inquirer
-        .prompt(questions)
+        .prompt(questTask)
         .then((answers) => {
             const task = answers.task;
             if (task === 'view employees') {
@@ -58,40 +40,13 @@ const askTask = () => {
         });
 };
 
-const addEmployee = (answers) => {
-    connection.query(
-        "INSERT INTO employees SET ?",
-        {
-            employee_firstname: answers.firstName,
-            employee_lastname: answers.lastName,
-            role_id: Number(answers.roleId),
-            manager_id: Number(answers.managerId)
-        },
-        function(err) {
-            if (err) throw err;
-            console.log("Your employee was added successfully!");
-            // re-prompt the user for the next task (or to exit)
-            askTask();
-        }
-    );
-};
 
-const addRole = (answers) => {
-    connection.query(
-        "INSERT INTO role SET ?",
-        {
-            title: answers.title,
-            salary: answers.salary,
-            department_id: Number(answers.deptId),
-        },
-        function(err) {
-            if (err) throw err;
-            console.log("The role was added successfully!");
-            // re-prompt the user for if they want to bid or post
-            askTask();
-        }
-    );
-};
+// const init = () => {
+//     askTask();
+// }
 
+// init();
 
-console.log(getAllEmployees());
+askTask();
+
+module.exports = { askTask };
