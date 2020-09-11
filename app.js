@@ -4,7 +4,7 @@ const { questTask } = require('./questions');
 const { viewAll } = require('./controllers/viewAll')
 const { addEmployee } = require('./controllers/addEmployees.js');
 const { addRole } = require('./controllers/addRoles.js');
-const { addDept } = require('./controllers/department.js');
+const { addDept } = require('./controllers/addDepartment.js');
 const { updateEmployee } = require('./controllers/updateEmployee');
 
 
