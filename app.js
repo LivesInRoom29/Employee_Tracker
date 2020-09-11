@@ -1,7 +1,9 @@
 const inquirer = require('inquirer');
-const { addEmployee } = require('./controllers/employees.js');
-const {addRole } = require('./controllers/roles.js');
+
 const { questTask } = require('./questions');
+const { addEmployee } = require('./controllers/employees.js');
+const { addRole } = require('./controllers/roles.js');
+const { addDept } = require('./controllers/department.js');
 
 //const { askTask } = await require('./controllers/initialAsk');
 
@@ -23,7 +25,7 @@ const askTask = () => {
             } else if (task === 'add role') {
                 addRole();
             } else if (task === 'add department') {
-                console.log('add department');
+                addDept();
             } else if (task === 'add manager') {
                 console.log('add manager');
             } else if (task === 'update employee') {
