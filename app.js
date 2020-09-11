@@ -1,9 +1,12 @@
 const inquirer = require('inquirer');
 
 const { questTask } = require('./questions');
-const { addEmployee } = require('./controllers/employees.js');
-const { addRole } = require('./controllers/roles.js');
+const { viewAll } = require('./controllers/viewAll')
+const { addEmployee } = require('./controllers/addEmployees.js');
+const { addRole } = require('./controllers/addRoles.js');
 const { addDept } = require('./controllers/department.js');
+const { updateEmployee } = require('./controllers/updateEmployee');
+
 
 //const { askTask } = await require('./controllers/initialAsk');
 
@@ -13,11 +16,11 @@ const askTask = () => {
         .then((answers) => {
             const task = answers.task;
             if (task === 'view employees') {
-                console.log('view employees');
+                viewAll('employees');
             } else if (task === 'view roles') {
-                console.log('view roles');
+                viewAll('roles');
             } else if (task === 'view departments') {
-                console.log('view departments');
+                viewAll('departments');
             } else if (task === 'view managers') {
                 console.log('view managers');
             } else if (task === 'add employee') {
@@ -26,10 +29,8 @@ const askTask = () => {
                 addRole();
             } else if (task === 'add department') {
                 addDept();
-            } else if (task === 'add manager') {
-                console.log('add manager');
             } else if (task === 'update employee') {
-                console.log('update employee');
+                updateEmployee();
             } else if (task === 'delete  employee') {
                 console.log('delete  employee');
             } else if (task === 'delete  role') {
