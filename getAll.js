@@ -11,9 +11,9 @@ let allManagers = [];
 const setAllEmp = async (value) => {
     try {
         const rows = await queryAsync("SELECT * FROM employees");
-        return rows.map((employee) => `${employee.employee_firstname} ${employee.employee_lastname}`);
+        return rows.map((employee) => ({ name: `${employee.employee_firstname} ${employee.employee_lastname}`, value: employee.id}));
     } catch {
-        console.log(err);
+        console.log('There was an error querying the databse to select all employees.');
     }
 };
 
