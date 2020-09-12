@@ -1,5 +1,5 @@
 const util = require('util');
-const connection = require('./config/db.js');
+const connection = require('../config/db.js');
 // Async/await use From https://stackoverflow.com/questions/44004418/node-js-async-await-using-with-mysql#:~:text=if%20you%20happen%20to%20be,()%20with%20the%20node%20mysql.&text=Any%20promise%20can%20be%20used,an%20async%20function%20%22wrapper%22.
 const queryAsync = util.promisify(connection.query).bind(connection);
 
@@ -38,16 +38,5 @@ const getAllManagers = async () => {
         console.log('Err at setAllManagers:', err);
     }
 };
-
-// //Not sure this is even necessary.... put into other functions...
-// Promise.all([setAllEmp(), setAllRoles(), setAllDepts(), setAllManagers()])
-// .then((values) => {
-//     allEmployees = values[0];
-//     allRoles = values[1];
-//     allDepts = values[2];
-//     allManagers = values[3];
-//    // console.log('All employees:', allEmployees, 'All roles:', allRoles, 'All depts:', allDepts, 'all managers:', allManagers);
-// }).catch((err) => console.log(err));
-
 
 module.exports = { getAllEmp, getAllRoles, getAllDepts, getAllManagers }
