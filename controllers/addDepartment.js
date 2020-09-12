@@ -1,11 +1,8 @@
 const inquirer = require('inquirer');
 const connection = require('../config/db.js');
-//const { questAddRole } = require('../questions') DIDN"T WORK (need allDepts)
-
-const { askTask } = require('./initialAsk');
 
 // Add a new employee to the db
-const addDept = () => {
+const addDept = (askTask) => {
     inquirer.prompt([
         {
             type: 'input',
@@ -30,5 +27,4 @@ const addDept = () => {
 };
 
 
-
-module.exports = { addDept }
+module.exports = addDept

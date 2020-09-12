@@ -1,7 +1,7 @@
 const inquirer = require('inquirer');
 const connection = require('../config/db.js');
 
-const { getAllRoles, getAllManagers } = require('../getAll');
+const { getAllRoles, getAllManagers } = require('./getAll');
 
 // Add a new employee to the db
 // Instead of requiring askTask above, use it as a parameter. Otherwise it was being imported before it was actually being exported from the module.

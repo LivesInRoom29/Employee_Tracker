@@ -1,18 +1,13 @@
 const inquirer = require('inquirer');
+
 const connection = require('../config/db.js');
-//const { questAddRole } = require('../questions') DIDN"T WORK (need allDepts)
-
-const { askTask } = require('./initialAsk');
-
-const { setAllDepts } = require('../getAll');
+const { getAllDepts } = require('./getAll');
 
 // Add a new employee to the db
-const addRole = () => {
-    Promise.all([ setAllDepts() ])
+const addRole = (askTask) => {
+    Promise.all([ getAllDepts() ])
     .then((values) => {
-        //console.log(values)
-        const allDepts = values[0];
-        return allDepts
+        return values[0];
     })
     .then((allDepts) =>
         //allManagers.push({name: 'NULL', value: 'NULL'}),
@@ -57,4 +52,4 @@ const addRole = () => {
     ).catch((err) => console.log(err));
 }
 
-module.exports = { addRole }
+module.exports = addRole;
