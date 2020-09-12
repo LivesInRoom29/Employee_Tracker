@@ -1,51 +1,45 @@
 const inquirer = require('inquirer');
 const connection = require('../config/db.js');
 
-const { askTask } = require('../app');
-console.log('in empl asktask: ', askTask)
-
-const { setAllEmp, setAllRoles, setAllDepts, setAllManagers } = require('../getAll');
+const { getAllRoles, getAllManagers } = require('../getAll');
 
 // Add a new employee to the db
-const addEmployee = () => {
-    Promise.all([setAllEmp(), setAllRoles(), setAllDepts(), setAllManagers()])
+// Instead of requiring askTask above, use it as a parameter. Otherwise it was being imported before it was actually being exported from the module.
+const addEmployee = (askTask) => {
+    // or could require the module inside this function
+
+    // Call these 2 asyn functions to get an array of all the roles and all the managers
+    // These will be used to populate the choices for the 3rd and 5th questions.
+    Promise.all([getAllRoles(), getAllManagers()])
     .then((values) => {
         //console.log(values)
-        const allEmployees = values[0];
-        const allRoles = values[1];
-        const allDepts = values[2];
-        const allManagers = values[3];
-        //console.log('All employees:', allEmployees, 'All roles:', allRoles, 'All depts:', allDepts, 'all managers:', allManagers);
-        return [allEmployees, allRoles, allDepts, allManagers]
+        const allRoles = values[0];
+        const allManagers = values[1];
+        return [ allRoles, allManagers ]
     })
-    .then(([ allEmployees, allRoles, allDepts, allManagers ]) =>
-        //allManagers.push({name: 'NULL', value: 'NULL'}),
+    .then(([ allRoles, allManagers ]) =>
         inquirer.prompt([
         {
             type: 'input',
             name: 'firstName',
             message: "What is the employee's first name?",
-            //when: (answers) => answers.toAdd === 'Employee'
         },
         {
             type: 'input',
             name: 'lastName',
             message: "What is the employee's last name?",
-            //when: (answers) => answers.toAdd === 'Employee'
         },
         {
             type: 'list',
             name: 'roleId',
             message: "What is the employee's role?",
-            choices: allRoles,
-            //when: (answers) => answers.toAdd === 'Employee'
+            choices: allRoles
         },
         {
             type: 'list',
             name: 'managerOrNo',
             message: "Does the employee have a manager?",
             choices: ['yes', 'no'],
-            //when: (answers) => answers.toAdd === 'Employee',
         },
         {
             type: 'list',
@@ -53,18 +47,18 @@ const addEmployee = () => {
             message: "Who is the employee's manager?",
             choices: allManagers,
             when: (answers) => answers.managerOrNo === 'yes',
-            //when: (answers) => answers.toAdd === 'Employee',
-            // need to add null to the options here**
         }
     ])).then((answers) => {
-        if (answers.ManagerOrNo) {
+        // Query the employees db and add a new row with the new employee info
+        // If the new emplyee has a manager, include the manager ID in the insertion
+        if (answers.managerOrNo) {
             connection.query(
                 "INSERT INTO employees SET ?",
                 {
                     employee_firstname: answers.firstName,
                     employee_lastname: answers.lastName,
                     role_id: Number(answers.roleId),
-                    manager_id: Number(answers.managerId) //|| DEFAULT??
+                    manager_id: Number(answers.managerId) // || DEFAULT??  Use ternary?
                 },
                 function(err) {
                     if (err) throw err;
@@ -73,6 +67,7 @@ const addEmployee = () => {
                     askTask();
                 }
             );
+        // Otherwise, don't and it will default to NULL
         } else {
             connection.query(
                 "INSERT INTO employees SET ?",
@@ -83,7 +78,7 @@ const addEmployee = () => {
                 },
                 function(err) {
                     if (err) throw err;
-                    console.log("Your employee was added successfully!");
+                    console.log("Your manager was added successfully!");
                     // re-prompt the user for the next task (or to exit)
                     askTask();
                 }
@@ -91,6 +86,6 @@ const addEmployee = () => {
         }
 
     }).catch((err) => console.log(err));
-}
+};
 
-module.exports = { addEmployee }
+module.exports = addEmployee
