@@ -1,34 +1,31 @@
 const inquirer = require('inquirer');
+const questTask= require('./controllers/taskQuestion');
+const addEmployee = require('./controllers/addEmployees.js');
+const addRole = require('./controllers/addRoles.js');
+const addDept = require('./controllers/addDepartment.js');
+const updateEmployee = require('./controllers/updateEmployee');
+const viewAll = require('./controllers/viewAll');
 
-const { questTask } = require('./questions');
-const { viewAll } = require('./controllers/viewAll')
-const { addEmployee } = require('./controllers/addEmployees.js');
-const { addRole } = require('./controllers/addRoles.js');
-const { addDept } = require('./controllers/addDepartment.js');
-const { updateEmployee } = require('./controllers/updateEmployee');
-
-
-//const { askTask } = await require('./controllers/initialAsk');
-
+// Ask the user what taks they'd like to complete. Depending on the task, different functions will be calledconst askTask = () => {
 const askTask = () => {
     inquirer
         .prompt(questTask)
         .then((answers) => {
             const task = answers.task;
             if (task === 'view employees') {
-                viewAll('employees');
+                viewAll('employees', askTask);
             } else if (task === 'view roles') {
-                viewAll('roles');
+                viewAll('roles', askTask);
             } else if (task === 'view departments') {
-                viewAll('departments');
+                viewAll('departments', askTask);
             } else if (task === 'view managers') {
                 console.log('view managers');
             } else if (task === 'add employee') {
-                addEmployee();
+                addEmployee(askTask);
             } else if (task === 'add role') {
-                addRole();
+                addRole(askTask);
             } else if (task === 'add department') {
-                addDept();
+                addDept(askTask);
             } else if (task === 'update employee') {
                 updateEmployee();
             } else if (task === 'delete  employee') {
@@ -43,13 +40,6 @@ const askTask = () => {
         });
 };
 
-
-// const init = () => {
-//     askTask();
-// }
-
-// init();
-
 askTask();
 
-module.exports = { askTask };
+module.exports = askTask;
