@@ -2,7 +2,8 @@ const connection = require('../config/db.js');
 const cTablle = require('console.table');
 
 // View all Departments
-const viewAll = (table) => {
+const viewAll = (table, askTask) => {
+
     const queryAll = `SELECT * FROM ${table}`;
     //const queryAll = "SELECT * FROM ?"; //Is this possible?
 
@@ -14,4 +15,4 @@ const viewAll = (table) => {
     });
 }
 
-module.exports = { viewAll }
+module.exports = viewAll

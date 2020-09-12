@@ -1,13 +1,11 @@
 const inquirer = require('inquirer');
 const connection = require('../config/db.js');
 
-const { askTask } = require('../app');
-console.log('in empl asktask: ', askTask)
-
-const { setAllEmp, setAllRoles, setAllDepts, setAllManagers } = require('../getAll');
+const { getAllEmp, getAllRoles, getAllManagers } = require('./getAll');
 
 //query to update employee's role
 const updateRole = (answers) => {
+    const askTask = require('../app');
     connection.query("UPDATE employees SET ? WHERE ?", [{ role_id: answers.newRole}, {id: Number(answers.empl)}],
     function (err) {
         if (err) throw err;
@@ -18,6 +16,7 @@ const updateRole = (answers) => {
 
 //query to update employee's manager
 const updateManager = (answers) => {
+    const askTask = require('../app');
     connection.query("UPDATE employees SET ? WHERE ?", [{manager_id: Number(answers.newManager)}, {id: Number(answers.empl)}],
     function(err) {
         if (err) throw err;
@@ -28,32 +27,27 @@ const updateManager = (answers) => {
 
 // Add a new employee to the db
 const updateEmployee = () => {
-    Promise.all([setAllEmp(), setAllRoles(), setAllDepts(), setAllManagers()])
+    Promise.all([getAllEmp(), getAllRoles(), getAllManagers()])
     .then((values) => {
         //console.log(values)
         const allEmployees = values[0];
         const allRoles = values[1];
-        const allDepts = values[2];
-        const allManagers = values[3];
-        //console.log('All employees:', allEmployees, 'All roles:', allRoles, 'All depts:', allDepts, 'all managers:', allManagers);
-        return [allEmployees, allRoles, allDepts, allManagers]
+        const allManagers = values[2];
+        return [allEmployees, allRoles, allManagers]
     })
-    .then(([ allEmployees, allRoles, allDepts, allManagers ]) =>
-        //allManagers.push({name: 'NULL', value: 'NULL'}),
+    .then(([ allEmployees, allRoles, allManagers ]) =>
         inquirer.prompt([
         {
             type: 'list',
             name: 'empl',
             message: 'Which employee would you like to update?',
             choices: allEmployees
-            //when: (answers) => answers.toAdd === 'Employee'
         },
         {
             type: 'list',
             name: 'updateWhat',
             message: 'What would you like to update?',
             choices: ['role', 'manager']
-            //when: (answers) => answers.toAdd === 'Employee'
         },
         {
             type: 'list',
@@ -75,8 +69,6 @@ const updateEmployee = () => {
             message: "Who is the employee's new manager?",
             choices: allManagers,
             when: (answers) => answers.updateWhat === 'manager',
-            //when: (answers) => answers.toAdd === 'Employee',
-            // need to add null to the options here**
         }
     ])).then((answers) => {
         if (answers.updateWhat === "role") {
@@ -88,4 +80,4 @@ const updateEmployee = () => {
     }).catch((err) => console.log(err));
 };
 
-module.exports = { updateEmployee }
+module.exports = updateEmployee
