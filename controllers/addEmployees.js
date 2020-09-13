@@ -45,7 +45,7 @@ const addEmployee = (askTask) => {
     ])).then((answers) => {
         // Query the employees db and add a new row with the new employee info
         // If the new emplyee has a manager, include the manager ID in the insertion
-        if (answers.managerOrNo) {
+        if (answers.managerOrNo === 'yes') {
             connection.query(
                 "INSERT INTO employees SET ?",
                 {
