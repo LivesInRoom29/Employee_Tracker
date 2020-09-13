@@ -4,7 +4,10 @@ const addEmployee = require('./controllers/addEmployees.js');
 const addRole = require('./controllers/addRoles.js');
 const addDept = require('./controllers/addDepartment.js');
 const updateEmployee = require('./controllers/updateEmployee');
-const viewAll = require('./controllers/viewAll');
+const viewByMng = require('./controllers/viewByMng')
+const dal = require('./controllers/dal');
+const queries = require('./db/queries.js');
+
 
 // Ask the user what taks they'd like to complete. Depending on the task, different functions will be calledconst askTask = () => {
 const askTask = () => {
@@ -12,12 +15,16 @@ const askTask = () => {
         .prompt(questTask)
         .then((answers) => {
             const task = answers.task;
-            if (task === 'view employees') {
-                viewAll('employees', askTask);
-            } else if (task === 'view roles') {
-                viewAll('roles', askTask);
+            if (task === 'view all employees') {
+                dal.viewAll(queries.allEmployees).then((res) => askTask());
+            } else if (task === 'view employees by manager') {
+                viewByMng()
+                .then((answers) => dal.viewAllBy(queries.allEmployeesByMng, 'm.id', answers.managerId))
+                .then((res) => askTask());
+            }else if (task === 'view all roles') {
+                dal.viewAll(queries.allRoles).then((res) => askTask());
             } else if (task === 'view departments') {
-                viewAll('departments', askTask);
+                dal.viewAll(queries.allDepts).then((res) => askTask());
             } else if (task === 'view managers') {
                 console.log('view managers');
             } else if (task === 'add employee') {
