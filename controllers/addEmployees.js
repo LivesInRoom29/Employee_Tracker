@@ -11,12 +11,6 @@ const addEmployee = (askTask) => {
     // Call these 2 asyn functions to get an array of all the roles and all the managers
     // These will be used to populate the choices for the 3rd and 5th questions.
     Promise.all([getAllRoles(), getAllManagers()])
-    .then((values) => {
-        //console.log(values)
-        const allRoles = values[0];
-        const allManagers = values[1];
-        return [ allRoles, allManagers ]
-    })
     .then(([ allRoles, allManagers ]) =>
         inquirer.prompt([
         {
