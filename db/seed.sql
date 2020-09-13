@@ -10,7 +10,7 @@ INSERT INTO employees(employee_firstname, employee_lastname, role_id, manager_id
 INSERT INTO employees(employee_firstname, employee_lastname, role_id, manager_id) VALUES ('Cassandra', 'Spender', 7, 2);
 INSERT INTO employees(employee_firstname, employee_lastname, role_id, manager_id) VALUES ('Richard', 'Langley', 7, 2);
 INSERT INTO employees(employee_firstname, employee_lastname, role_id, manager_id) VALUES ('Eugene', 'Tooms', 8, 2);
-INSERT INTO employees(employee_firstname, employee_lastname, role_id, manager_id) VALUES ('Jonh', 'Byers', 2, 1);
+INSERT INTO employees(employee_firstname, employee_lastname, role_id, manager_id) VALUES ('John', 'Byers', 2, 1);
 
 
 
