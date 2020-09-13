@@ -7,8 +7,8 @@ const getAllEmp = async (value) => {
     try {
         const rows = await queryAsync("SELECT * FROM employees");
         return rows.map((employee) => ({ name: `${employee.employee_firstname} ${employee.employee_lastname}`, value: employee.id}));
-    } catch {
-        console.log('There was an error querying the databse to select all employees.');
+    } catch (err) {
+        console.log('There was an error querying the database to select all employees.');
     }
 };
 
@@ -16,8 +16,8 @@ const getAllRoles = async () => {
     try {
         const rows = await queryAsync("SELECT * FROM roles");
         return rows.map((role) => ({name: role.title, value: role.id}));
-    } catch {
-        console.log(`Err at setAllRoles,`, err);
+    } catch (err) {
+        console.log(`Err at getAllRoles,`, err);
     }
 };
 
@@ -25,8 +25,8 @@ const getAllDepts = async() => {
     try {
         const rows = await queryAsync("SELECT * FROM departments");
         return rows.map((dept) => ({name: dept.dept_name, value: dept.id}));
-    } catch {
-        console.log(`Err at setAllDepts,`, err);
+    } catch (err) {
+        console.log(`Err at getAllDepts,`, err);
     }
 };
 
@@ -34,8 +34,8 @@ const getAllManagers = async () => {
     try {
         const rows = await queryAsync("SELECT * FROM employees WHERE manager_id IS NULL");
         return rows.map((manager) => ({name: `${manager.employee_firstname} ${manager.employee_lastname}`, value: manager.id}));
-    } catch {
-        console.log('Err at setAllManagers:', err);
+    } catch (err) {
+        console.log('Err at getAllManagers:', err);
     }
 };
 
