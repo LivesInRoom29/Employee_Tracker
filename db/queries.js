@@ -29,6 +29,10 @@ const queries = {
     allDepts:
         `SELECT id, dept_name AS department
         FROM departments;`,
+
+    deleteId:
+        `DELETE FROM ??
+        WHERE id = ?`
 }
 
 module.exports = queries;
