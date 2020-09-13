@@ -2,7 +2,7 @@ const inquirer = require("inquirer");
 
 const questTask = [
     {
-        type: 'list',
+        type: 'rawlist',
         name: 'task',
         message: 'What would you like to do with your database?',
         choices: [
@@ -11,12 +11,10 @@ const questTask = [
             'view employees by manager',
             'view all roles',
             'view all departments',
-            'view all managers',
             new inquirer.Separator('=== ADD NEW INFO ==='),
             'add employee',
             'add role',
             'add department',
-            'add manager',
             new inquirer.Separator('=== UPDATE INFO ==='),
             'update employee',
             new inquirer.Separator('=== DELETE INFO ==='),
@@ -25,7 +23,8 @@ const questTask = [
             'delete department',
             new inquirer.Separator('=== EXIT ==='),
             'exit application'
-        ]
+        ],
+        pageSize: 13
     }
 ];
 
