@@ -49,8 +49,8 @@ const addEmployee = (askTask) => {
             connection.query(
                 "INSERT INTO employees SET ?",
                 {
-                    employee_firstname: answers.firstName,
-                    employee_lastname: answers.lastName,
+                    first_name: answers.firstName,
+                    last_name: answers.lastName,
                     role_id: Number(answers.roleId),
                     manager_id: Number(answers.managerId) // || DEFAULT??  Use ternary?
                 },
@@ -66,8 +66,8 @@ const addEmployee = (askTask) => {
             connection.query(
                 "INSERT INTO employees SET ?",
                 {
-                    employee_firstname: answers.firstName,
-                    employee_lastname: answers.lastName,
+                    first_name: answers.firstName,
+                    last_name: answers.lastName,
                     role_id: Number(answers.roleId),
                 },
                 function(err) {

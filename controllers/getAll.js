@@ -6,7 +6,7 @@ const queryAsync = util.promisify(connection.query).bind(connection);
 const getAllEmp = async (value) => {
     try {
         const rows = await queryAsync("SELECT * FROM employees");
-        return rows.map((employee) => ({ name: `${employee.employee_firstname} ${employee.employee_lastname}`, value: employee.id}));
+        return rows.map((employee) => ({ name: `${employee.first_name} ${employee.last_name}`, value: employee.id}));
     } catch (err) {
         console.log('There was an error querying the database to select all employees.');
     }
@@ -33,7 +33,7 @@ const getAllDepts = async() => {
 const getAllManagers = async () => {
     try {
         const rows = await queryAsync("SELECT * FROM employees WHERE manager_id IS NULL");
-        return rows.map((manager) => ({name: `${manager.employee_firstname} ${manager.employee_lastname}`, value: manager.id}));
+        return rows.map((manager) => ({name: `${manager.first_name} ${manager.last_name}`, value: manager.id}));
     } catch (err) {
         console.log('Err at getAllManagers:', err);
     }

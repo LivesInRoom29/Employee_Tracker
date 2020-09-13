@@ -1,6 +1,6 @@
 const queries = {
     allEmployees:
-        `SELECT e.id, e.employee_firstname, e.employee_lastname, title, dept_name AS department, salary, CONCAT(m.employee_firstname, ' ', m.employee_lastname) AS manager
+        `SELECT e.id, e.first_name, e.last_name, title, dept_name AS department, salary, CONCAT(m.first_name, ' ', m.last_name) AS manager
         FROM employees e
         INNER JOIN roles
         ON e.role_id = roles.id
@@ -9,7 +9,7 @@ const queries = {
         LEFT JOIN employees m
         ON e.manager_id = m.id;`,
 
-    allEmployeesByMng: `SELECT e.id, e.employee_firstname, e.employee_lastname, title, dept_name AS department, salary, CONCAT(m.employee_firstname, ' ', m.employee_lastname) AS manager
+    allEmployeesByMng: `SELECT e.id, e.first_name, e.last_name, title, dept_name AS department, salary, CONCAT(m.first_name, ' ', m.last_name) AS manager
         FROM employees e
         INNER JOIN roles
         ON e.role_id = roles.id
@@ -24,9 +24,11 @@ const queries = {
         `SELECT roles.id, title, salary, dept_name AS department
         FROM roles
         INNER JOIN departments
-        ON roles.department_id = departments.id`,
+        ON roles.department_id = departments.id;`,
 
-    allDepts: 'SELECT * FROM departments',
+    allDepts:
+        `SELECT id, dept_name AS department
+        FROM departments;`,
 }
 
 module.exports = queries;
