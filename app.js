@@ -1,15 +1,22 @@
 const inquirer = require('inquirer');
 const questTask= require('./controllers/taskQuestion');
+
 const addEmployee = require('./controllers/addEmployees.js');
 const addRole = require('./controllers/addRoles.js');
 const addDept = require('./controllers/addDepartment.js');
 const updateEmployee = require('./controllers/updateEmployee');
 const viewByMng = require('./controllers/viewByMng')
+const toDeleteEmployee = require('./controllers/deleteEmployee');
+const toDeleteRole = require('./controllers/deleteRole');
+const toDeleteDept = require('./controllers/deleteDepartment')
+
 const dal = require('./controllers/dal');
 const queries = require('./db/queries.js');
 
 
-// Ask the user what taks they'd like to complete. Depending on the task, different functions will be calledconst askTask = () => {
+
+// Ask the user what taks they'd like to complete. Depending on the task, different functions will
+// be called and when task is complete, the askTask function will run again.
 const askTask = () => {
     inquirer
         .prompt(questTask)
@@ -20,13 +27,13 @@ const askTask = () => {
             } else if (task === 'view employees by manager') {
                 viewByMng()
                 .then((answers) => dal.viewAllBy(queries.allEmployeesByMng, 'm.id', answers.managerId))
-                .then((res) => askTask());
+                .then(() => askTask());
             }else if (task === 'view all roles') {
-                dal.viewAll(queries.allRoles).then((res) => askTask());
-            } else if (task === 'view departments') {
-                dal.viewAll(queries.allDepts).then((res) => askTask());
-            } else if (task === 'view managers') {
-                console.log('view managers');
+                dal.viewAll(queries.allRoles)
+                .then(() => askTask());
+            } else if (task === 'view all departments') {
+                dal.viewAll(queries.allDepts)
+                .then(() => askTask());
             } else if (task === 'add employee') {
                 addEmployee(askTask);
             } else if (task === 'add role') {
@@ -35,16 +42,23 @@ const askTask = () => {
                 addDept(askTask);
             } else if (task === 'update employee') {
                 updateEmployee();
-            } else if (task === 'delete  employee') {
-                console.log('delete  employee');
-            } else if (task === 'delete  role') {
-                console.log('delete  role');
-            } else if (task === 'delete  department') {
-                console.log('delete  department');
+            } else if (task === 'delete employee') {
+                toDeleteEmployee()
+                .then((answers) => dal.deleteFrom(queries.deleteId, 'employees', Number(answers.empToDelete)))
+                .then(() => askTask());
+            } else if (task === 'delete role') {
+                toDeleteRole()
+                .then((answers) => dal.deleteFrom(queries.deleteId, 'roles', Number(answers.roleToDelete)))
+                .then(() => askTask());
+            } else if (task === 'delete department') {
+                toDeleteDept()
+                .then((answers) => dal.deleteFrom(queries.deleteId, 'departments', Number(answers.deptToDelete)))
+                .then(() => askTask());
             } else {
                 process.exit();
             }
-        });
+        })
+        .catch((err) => console.log(err));
 };
 
 askTask();
