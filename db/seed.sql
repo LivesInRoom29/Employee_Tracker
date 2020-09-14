@@ -1,16 +1,16 @@
 -- to populate the tables with some data...
 
 -- For employees table
-INSERT INTO employees(employee_firstname, employee_lastname, role_id) VALUES ('Walter', 'Skinner', 10);
-INSERT INTO employees(employee_firstname, employee_lastname, role_id) VALUES ('Dana', 'Scully', 6);
-INSERT INTO employees(employee_firstname, employee_lastname, role_id) VALUES ('Fox', 'Mulder', 3);
-INSERT INTO employees(employee_firstname, employee_lastname, role_id, manager_id) VALUES ('Monica', 'Reyes', 9, 2);
-INSERT INTO employees(employee_firstname, employee_lastname, role_id, manager_id) VALUES ('Alex', 'Krycek', 5, 3);
-INSERT INTO employees(employee_firstname, employee_lastname, role_id, manager_id) VALUES ('Melvin', 'Frohike', 4, 3);
-INSERT INTO employees(employee_firstname, employee_lastname, role_id, manager_id) VALUES ('Cassandra', 'Spender', 7, 2);
-INSERT INTO employees(employee_firstname, employee_lastname, role_id, manager_id) VALUES ('Richard', 'Langley', 7, 2);
-INSERT INTO employees(employee_firstname, employee_lastname, role_id, manager_id) VALUES ('Eugene', 'Tooms', 8, 2);
-INSERT INTO employees(employee_firstname, employee_lastname, role_id, manager_id) VALUES ('John', 'Byers', 2, 1);
+INSERT INTO employees(first_name, last_name, role_id) VALUES ('Walter', 'Skinner', 10);
+INSERT INTO employees(first_name, last_name, role_id) VALUES ('Dana', 'Scully', 6);
+INSERT INTO employees(first_name, last_name, role_id) VALUES ('Fox', 'Mulder', 3);
+INSERT INTO employees(first_name, last_name, role_id, manager_id) VALUES ('Monica', 'Reyes', 9, 2);
+INSERT INTO employees(first_name, last_name, role_id, manager_id) VALUES ('Alex', 'Krycek', 5, 3);
+INSERT INTO employees(first_name, last_name, role_id, manager_id) VALUES ('Melvin', 'Frohike', 4, 3);
+INSERT INTO employees(first_name, last_name, role_id, manager_id) VALUES ('Cassandra', 'Spender', 7, 2);
+INSERT INTO employees(first_name, last_name, role_id, manager_id) VALUES ('Richard', 'Langley', 7, 2);
+INSERT INTO employees(first_name, last_name, role_id, manager_id) VALUES ('Eugene', 'Tooms', 8, 2);
+INSERT INTO employees(first_name, last_name, role_id, manager_id) VALUES ('John', 'Byers', 2, 1);
 
 
 
